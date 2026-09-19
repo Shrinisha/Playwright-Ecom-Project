@@ -1,6 +1,6 @@
 import re
 import pytest
-from playwright.sync_api import Page, expect
+from playwright.sync_api import Page , expect
 def get_csv_data() -> list:
     import csv
     data = []
@@ -10,7 +10,7 @@ def get_csv_data() -> list:
             data.append((row))  # Assuming the CSV has two columns: username and password
     return data
 @pytest.mark.parametrize("username,password", get_csv_data())
-def test_example(page: Page, username,password) -> None:
+def test_example(page: Page, username: str, password: str) -> None:
     page.goto("https://automationexercise.com/")
     try:
         page.get_by_role("button", name="Consent").click()

@@ -14,7 +14,6 @@ def get_csv_data() -> list:
 
 def test_example(page: Page, email: str, password: str) -> None:
     delete_logout_page = DeleteLogoutPage(page)
-    delete_logout_page.login(email,password)
     expect(page.get_by_role("link", name=" Delete Account")).to_be_visible()
     delete_logout_page.delete_account()
     try:
