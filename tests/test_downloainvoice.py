@@ -1,0 +1,57 @@
+import re
+from playwright.sync_api import Page, expect
+
+
+def test_example(page: Page) -> None:
+    page.goto("https://www.automationexercise.com/")
+    try:
+        page.get_by_role("button", name="Consent").click()
+    except:
+        pass
+    page.get_by_role("link", name=" Products").click()
+    #page.locator("iframe[name=\"aswift_3\"]").content_frame.get_by_role("button", name="Close ad").click()
+    page.get_by_role("link", name=" View Product").first.click()
+    page.get_by_role("button", name=" Add to cart").click()
+    page.get_by_role("button", name="Continue Shopping").click()
+    page.get_by_role("link", name=" Products").click()
+    page.get_by_role("link", name=" View Product").nth(1).click()
+    page.get_by_role("button", name=" Add to cart").click()
+    page.get_by_role("button", name="Continue Shopping").click()
+    page.get_by_role("link", name=" Cart").click()
+    page.get_by_text("Proceed To Checkout").click()
+    page.get_by_role("link", name="Register / Login").click()
+    page.get_by_text("Login to your account Login").click()
+    page.locator("form").filter(has_text="Login").get_by_placeholder("Email Address").click()
+    page.locator("form").filter(has_text="Login").get_by_placeholder("Email Address").fill("shrinisha1209@gmail.com")
+    page.get_by_role("textbox", name="Password").click()
+    page.get_by_role("textbox", name="Password").fill("nisha")
+    page.get_by_role("button", name="Login").click()
+    page.get_by_role("link", name=" Cart").click()
+    page.get_by_text("Proceed To Checkout").click()
+    expect(page.get_by_role("heading", name="Address Details")).to_be_visible()
+    expect(page.get_by_role("heading", name="Review Your Order")).to_be_visible()
+    page.locator("textarea[name=\"message\"]").click()
+    page.locator("textarea[name=\"message\"]").fill("good product")
+    page.get_by_role("link", name="Place Order").click()
+    #page.locator("iframe[name=\"aswift_3\"]").content_frame.get_by_role("button", name="Close ad").click()
+    expect(page.get_by_role("heading", name="Payment")).to_be_visible()
+    page.locator("input[name=\"name_on_card\"]").click()
+    page.locator("input[name=\"name_on_card\"]").fill("shrinisha1")
+    page.locator("input[name=\"card_number\"]").click()
+    page.locator("input[name=\"name_on_card\"]").fill("shrinisha12")
+    page.locator("input[name=\"card_number\"]").fill("234569876543")
+    page.get_by_role("textbox", name="ex.").click()
+    page.get_by_role("textbox", name="ex.").fill("122")
+    page.get_by_role("textbox", name="MM").click()
+    page.get_by_role("textbox", name="MM").fill("12")
+    page.get_by_role("textbox", name="YYYY").click()
+    page.get_by_role("textbox", name="YYYY").fill("2009")
+    page.get_by_role("button", name="Pay and Confirm Order").click()
+    page.get_by_text("Order Placed!").click()
+    expect(page.locator("#form")).to_contain_text("Congratulations! Your order has been confirmed!")
+    with page.expect_download() as download_info:
+        page.get_by_role("link", name="Download Invoice").click()
+    download = download_info.value
+    print(f"Downloaded file path: {download.path()}")
+    print(f"Downloaded file name: {download.suggested_filename}")
+    print(download)
